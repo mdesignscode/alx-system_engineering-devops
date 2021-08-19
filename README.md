@@ -1,1 +1,1 @@
-I'm learning the shell _basics_
+I'm learning System Engineering Dev Ops
