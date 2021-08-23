@@ -1,0 +1,1 @@
+I'm learning how *shell redirection* works
