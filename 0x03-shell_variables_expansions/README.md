@@ -1,0 +1,1 @@
+Today I'm learning *shell environments and expansions*
