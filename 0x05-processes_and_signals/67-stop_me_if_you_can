@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# stops the process 7-highlander
+
+pgrep -f 7-highlander | xargs kill -15
+#ID=$( (pgrep -f 7-highlander))
+#kill -15 "$ID"
