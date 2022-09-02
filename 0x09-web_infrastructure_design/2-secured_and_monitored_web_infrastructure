@@ -1,0 +1,38 @@
+Securing and Monitoring foobar.com
+
+Adding 3 Firewalls:
+    I have added a firewall onto each server so that incoming and outgoing traffic may be controlled, to avoid unauthorized incoming or outgoing traffic and to prevent harmful traffic from entering our server.
+
+Adding a SSL Certificate:
+    To transfer data securely from our server to the user, a secure connection needs to be used.
+    A secure connection is established if the users device trusts our server, therefore we need a digital certificate to prove that we are the real foobar.com
+
+Adding 3 monitoring clients:
+    I have added a monitoring too called Nagios onto each server, so that we will be able to be informed if any component fails or if our network goes down and to make sure our network is running as expected.
+
+What are firewalls for?
+    Firewalls are used as a barrier between a trusted network and an untrusted network.
+    Firewalls can be used to limit, prevent or block any harmful or suspicious traffic entering our system and it can also be used to allow access of our system on a remote private network.
+
+Why is the traffic served over HTTPS?
+    The traffic needs to be served securely and privately so that hackers my not be able to access our clients' sensitive data, and even if our users data fall into the wrong hands, it will be of no use because HTTPS uses asymmetric encryption to deliver the data to the user.
+
+What monitoring is used for?
+    Monitoring is used to monitor the health of our network system components such as:
+        The hardware memory usage - to ensure there is no memory corruption or any infinite loops in our software.
+        Disk I/O Writes - to ensure a server doesn't get overloaded with traffic, also to monitor for DDOS attacks
+        Performance Metrics - We need to know that our website is alive and is performing optimal
+    whenever the monitoring tools detects failure in any of these, it alerts the network administrator so that maintenance can be done.
+    Monitoring is also used to detect the root cause of a problem by providing a detailed log of every event occurring within our network system.
+
+Issues regarding using this infrastructure
+
+Why is terminating SSL at the load balancer level an issue?
+    If we terminate SSL at the load balancer level, then the data would no longer travel securely across the internet to the user, it would no longer be encrypted.
+
+Why is having only one MySQL server capable of accepting writes an issue?
+    If only one server can accept writes, then all users that want to perform write operations will need to be redirected to the the write permission server if they get directed some other server first, this may result in overloading of the server.
+
+Why having servers with all the same components (database, web server and application server) might be a problem?
+    Security - If unauthorized personal were to get access to one of our servers, and all components are on one server, they will have root access to our entire network system.
+    Single Point of Failure - If the server with al the components were to fail, our entire website would go down because there would no resources to supply the website.

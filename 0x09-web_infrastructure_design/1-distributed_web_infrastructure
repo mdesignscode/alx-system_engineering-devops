@@ -1,0 +1,23 @@
+Adding two servers and a load balancer to the structure
+
+
+Now we scale the structure horizontally by adding two servers so that we can get rid of one single point of failure, we can now now distribute the traffic load across three servers.By adding two more servers, we increase the availability of the website and we add redundancy, so in the case that one of the servers goes down, there will still be two servers to serve the clients.
+
+Now that we have more servers, we need some way to direct our clients to the right server, and that is where the Load Balancer comes in.The load balancer will direct all clients to the right server.Our load balancer will use the Round Robin algorithm, that means that it will circle around each server and direct each client to one server at a time and it will keep on going like that.
+
+The load balancer will be using an Active-active cluster setup, whereby all three servers will run at the same time.Another setup is the Passive-active setup, whereby one server runs live, and the others servers will be on standby incase the running server goes down.The Passive-active setup needs monitoring of the servers so that the load balancer will know when something has happened to a running server so it can direct traffic to another server.
+
+The data will be shared between the servers using Primary-Replica (Master-Slave) cluster.In this method, if the Primary node sees a change in the database, it will log it and share it with all the other server replicas in the cluster.
+The Primary node is the server that has write access to the database, so the primary node will make required changes to the database and it will update the Replica node with the new logs.
+
+Issues regarding this infrastructure:
+
+Single Point of Failure:
+    We still only have one database, so if something were to happen in the database, all data may get lost or will be unavailable to users.
+
+Security concerns:
+    Our servers are vulnerable to hackers and malicious software because we do not have a firewall to keep dangerous incoming traffic from accessing our servers.
+    While transferring data to the user, sensitive data may be seen by unwanted users because we are not transferring data via HTTPS, that means that data is not being transferred securely over the internet.
+
+Hardware concerns:
+    Because we are not monitoring the server, we cannot keep track of the hardware components or the software components, therefore we would not be able to do maintenance when necessary.

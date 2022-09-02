@@ -1,0 +1,19 @@
+When the user enters www.foobar.com into the browser, the browser will first check its own cache to see if it has the IP address for www.foobar.com.If it doesn't have the IP address, it sends a request to the DNS Server for the IP address of www.foobar.com.
+
+The DNS Application Server checks the DNS Records for www.foobar.com and finds the CNAME record which is associated to the domain name, foobar.com and then looks up the IP address in the A record of foobar.com and sends it back to the browser.
+
+The browser connects to the server at the IP address and sends a request for the HTML content.
+The Web Server (Nginx) will then assemble the static files from the codebase, and query the database to see if any dynamic data needs to be presented to to the user, and store it in a package to deliver to the browser.The web server responds to the browser by sending the package over an internet protocol knows as HTTP, which is a way of delivering content accurately.
+
+Finally the contents of the website is displayed to the user.
+
+
+Issues regarding using this infrastructure:
+
+We have two single point of failures:
+   We use only one database, so if something happens to the database, all data may get lost
+   We are using only one server, so if anything happens our server our website will go down
+
+There is no horizontal scaling, so the server will crash at some time when the traffic gets too high for that server to handle, as there is no other servers to spread the load.
+
+If code maintenance needs to be done, the the website will be down if new code gets deployed because there is no other server to do maintenance on while the code is running live.
