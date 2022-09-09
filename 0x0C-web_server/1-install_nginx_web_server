@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# install nginx and return a page with the text 'Hello World!'
+
+apt-get install nginx -y
+service nginx start
+rm /var/www/html/index*.html
+echo 'Hello World!' > ~/index.html ; mv ~/index.html /var/www/html
+service nginx restart

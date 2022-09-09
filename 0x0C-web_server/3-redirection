@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# redirects /redirect_me to “301 Moved Permanently”
+
+sudo apt-get purge nginx nginx-common -y
+apt-get install nginx -y
+rm /var/www/html/index*.html
+echo 'Hello World!' > ~/index.html ; mv ~/index.html /var/www/html
+service nginx start
+
+LOC='root /var/www/html'
+sudo sed -i "s>$LOC;>$LOC;\n\n\tlocation /redirect_me {\n\t\treturn 301 /var/www/html;\n\t}>" /etc/nginx/sites-enabled/default
+mkdir /var/www/html/redirect_me
+touch /var/www/html/redirect_me/index.html
+service nginx restart

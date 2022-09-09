@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# returns a custom 404 page that contains the string Ceci n'est pas une page.
+
+sudo apt-get purge nginx nginx-common -y
+apt-get install nginx -y
+rm /var/www/html/index*.html
+echo 'Hello World!' > ~/index.html ; mv ~/index.html /var/www/html
+service nginx start
+
+LOC='root /var/www/html'
+sudo sed -i "s>$LOC;>$LOC;\n\n\tlocation /redirect_me {\n\t\treturn 301 /var/www/html;\n\t}\n\n\terror_page 404 /custom_404.html;\n\tlocation /custom_404.html {\n\t\t$LOC;\n\t\tinternal;\n\t}>" /etc/nginx/sites-enabled/default
+mkdir /var/www/html/redirect_me
+touch /var/www/html/redirect_me/index.html
+
+echo "Ceci n'est pas une page" > ~/custom_404.html ; mv ~/custom_404.html /var/www/html/
+
+service nginx restart
