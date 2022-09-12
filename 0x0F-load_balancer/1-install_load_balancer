@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# setup load balancing between the two servers
+
+apt-get install -y haproxy
+service haproxy start
+
+echo -e "
+frontend main
+        bind :80
+        default_backend site
+
+backend site
+        balance roundrobin
+        server 897-web-01 3.239.58.111:80 check
+        server 897-web-02 34.239.162.115:80 check
+        " >> /etc/haproxy/haproxy.cfg
+
+service haproxy restart
