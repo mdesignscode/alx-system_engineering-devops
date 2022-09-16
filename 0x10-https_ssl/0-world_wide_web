@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# display information about a server
+# shellcheck disable=SC2086
+# shellcheck disable=SC2034
+
+get_record() {
+    site="$2.$1"
+    record=$(dig $site | grep -A1 'ANSWER SECTION:' | grep -v 'ANSWER SECTION:' | awk '{print $4}')
+}
+get_ip() {
+    site="$2.$1"
+    address=$(dig $site | grep -A1 'ANSWER SECTION:' | grep -v 'ANSWER SECTION:' | awk '{print $5}')
+}
+
+if [ $# -eq 2 ]; then
+    get_record $1 $2
+    rec=$record
+    get_ip $1 $2
+    addr=$address
+    echo "The subdomain $2 is a $rec record and points to $addr"
+
+elif [ $# -eq 1 ]; then
+    for item in {www,lb-01,web-01,web-02}; do
+        get_record $1 $item
+        rec=$record
+        get_ip $1 $item
+        addr=$address
+        echo "The subdomain $item is a $rec record and points to $addr"
+    done
+fi
