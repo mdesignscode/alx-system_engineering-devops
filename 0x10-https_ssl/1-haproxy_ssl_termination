@@ -42,19 +42,50 @@ backend be-mdesigns
         server 897-web-01 3.239.58.111:80 check
         server 897-web-02 34.239.162.115:80 check
 
-#frontend listening on port 80
-#fowarding http traffic to cerbot in case of path beginning by /.well-known/acme-challenge
-#Otherwise taffic goes to the webapp
-frontend my-web-app-fe
-    bind *:80
-    #We need to listen on 443 for certificate renewal
-    bind *:443 ssl crt /etc/ssl/mdesignslearnwebdev.tech.pem
 
-    # letsencryp validation path for cert request
-    acl letsencrypt-acl path_beg /.well-known/acme-challeng/HkbcJOUDFE6zSYct91Z0YxyWfkWnYRRBrEq7TcsSOUo
-    use_backend letsencrypt-backend if letsencrypt-acl
 
-    default_backend be-mdesigns
+# Frontend configuration for HTTP
+# Only listens on port 80 (IPv4 and IPv6)
+frontend frontend-http
+    bind :80
+    bind :::80
+    mode http
 
-backend letsencrypt-backend
-    server certbot 127.0.0.1:8899
+    # ACL for detecting Let's Encrypt validtion requests
+    acl is_certbot path_beg /.well-known/acme-challenge/uZJL_-rfPix7U3UzMyXyTiWmikBjo6mYP9YGqIH8_lQ
+    use_backend backend-certbot if is_certbot
+
+    default_backend backend-web
+
+# Frontend configuration for HTTPS
+# Only listens on port 443 (IPv4 and IPv6)
+frontend frontend-https
+    bind :443 ssl crt /etc/haproxy/ssl/
+    bind :::443 ssl crt /etc/haproxy/ssl/
+    mode http
+
+    # ACL for detecting Let's Encrypt validtion requests
+    acl is_certbot path_beg /.well-known/acme-challenge/
+    use_backend backend-certbot if is_certbot
+
+    default_backend backend-web
+
+# Default backend
+# Contains your backend webservers
+backend backend-web
+    balance roundrobin
+    mode http
+
+    server web01 10.0.0.1:80 check inter 1s
+    server web02 10.0.0.2:80 check inter 1s
+
+    server 897-web-01 3.239.58.111:80 check
+    server 897-web-02 34.239.162.115:80 check
+
+
+# Certbot backend
+# Contains certbot stand-alone webserver
+backend backend-certbot
+    mode http
+
+    server certbot 127.0.0.1:9080
