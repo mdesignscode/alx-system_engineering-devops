@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# generates a MySQL dump and creates a compressed archive out of it
+
+PASS=$1
+DAY=$(date +%d)
+MONTH=$(date +%m)
+YEAR=$(date +%Y)
+
+if [[ -n "${PASS}" ]]; then
+    mysqldump -u root  -p "${PASS}" --all-databases > backup.sql
+else
+    mysqldump -u root --all-databases > backup.sql
+fi
+
+NAME="$DAY-$MONTH-$YEAR"
+
+tar -czf "$NAME".tar.gz /home/ubuntu/backup.sql
