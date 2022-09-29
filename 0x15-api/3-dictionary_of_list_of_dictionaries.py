@@ -21,8 +21,7 @@ for id in range(1, 11):
                   "completed": task["completed"], "username": user}
         status_list.append(status)
 
-    info = {f"{id}": status_list}
-    info_dict[f'{id}'] = info
+    info_dict[f'{id}'] = status_list
 
 with open('todo_all_employees.json', "w") as file:
     dump(info_dict, file)
