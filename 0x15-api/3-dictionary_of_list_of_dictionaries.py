@@ -4,10 +4,9 @@
 from json import dump
 from requests import get
 
-# { "USER_ID": [ {"username": "USERNAME", "task": "TASK_TITLE", "completed": TASK_COMPLETED_STATUS}, {"username": "USERNAME", "task": "TASK_TITLE", "completed": TASK_COMPLETED_STATUS}, ... ], "USER_ID": [ {"username": "USERNAME", "task": "TASK_TITLE", "completed": TASK_COMPLETED_STATUS}, {"username": "USERNAME", "task": "TASK_TITLE", "completed": TASK_COMPLETED_STATUS}, ... ]}
 
 info_dict = {}
-for id in range(1,11):
+for id in range(1, 11):
     user = get(
         'https://jsonplaceholder.typicode.com/users', params={'id': id}
     ).json()[0]['name']
