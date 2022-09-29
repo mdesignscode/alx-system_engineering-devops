@@ -9,7 +9,7 @@ info_dict = {}
 for id in range(1, 11):
     user = get(
         'https://jsonplaceholder.typicode.com/users', params={'id': id}
-    ).json()[0]['name']
+    ).json()[0]['username']
     todo = get(
         'https://jsonplaceholder.typicode.com/todos', params={'userId': id}
     ).json()
@@ -17,8 +17,8 @@ for id in range(1, 11):
 
     status_list = []
     for task in todo:
-        status = {"task": task['title'],
-                  "completed": task["completed"], "username": user}
+        status = {"username": user, "task": task['title'],
+                  "completed": task["completed"], }
         status_list.append(status)
 
     info_dict[f'{id}'] = status_list

@@ -12,7 +12,7 @@ if len(argv) < 2:
 id = argv[1]
 user = get(
     'https://jsonplaceholder.typicode.com/users', params={'id': id}
-).json()[0]['name']
+).json()[0]['username']
 todo = get(
     'https://jsonplaceholder.typicode.com/todos', params={'userId': id}
 ).json()
