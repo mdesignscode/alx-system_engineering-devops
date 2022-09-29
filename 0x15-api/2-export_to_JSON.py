@@ -20,7 +20,8 @@ total = len(todo)
 
 status_list = []
 for task in todo:
-    status = {"task": task['title'], "completed": task["completed"], "username": user}
+    status = {"task": task['title'],
+              "completed": task["completed"], "username": user}
     status_list.append(status)
 
 info = {f"{id}": status_list}

@@ -20,4 +20,6 @@ total = len(todo)
 
 with open('USER_ID.csv', "w") as file:
     for task in todo:
-        print(f'"{id}","{user}","{task["completed"]}","{task["title"]}"', file=file)
+        print(
+            f'"{id}","{user}","{task["completed"]}","{task["title"]}"',
+            file=file)
