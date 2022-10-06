@@ -20,11 +20,12 @@ def recurse(subreddit, hot_list=[], after=''):
 
     try:
         if after is not None:
-            base_url = f'https://www.reddit.com/r/{subreddit}/hot.json?after='+after
+            base_url =\
+                f'https://www.reddit.com/r/{subreddit}/hot.json?after='+after
             request = get(base_url,
-                            headers={
-                                'user-agent': 'learn api by Careful_Reality8307'
-                            })
+                          headers={
+                              'user-agent': 'learn api by Careful_Reality8307'
+                          })
 
             if request.is_redirect:
                 return
